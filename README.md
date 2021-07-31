@@ -98,9 +98,9 @@ into the creation of [raw deflate/inflate streams][node-zlib-deflaterawdocs].
 See [the docs][ws-server-options] for more options.
 
 ```js
-import WebSocket, { WebSocketServer } from 'ws';
+import WebSocket, { Server } from 'ws';
 
-const wss = new WebSocketServer({
+const wss = new Server({
   port: 8080,
   perMessageDeflate: {
     zlibDeflateOptions: {
@@ -175,9 +175,9 @@ ws.on('open', function open() {
 ### Simple server
 
 ```js
-import { WebSocketServer } from 'ws';
+import { Server } from 'ws';
 
-const wss = new WebSocketServer({ port: 8080 });
+const wss = new Server({ port: 8080 });
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
@@ -193,13 +193,13 @@ wss.on('connection', function connection(ws) {
 ```js
 import { createServer } from 'https';
 import { readFileSync } from 'fs';
-import { WebSocketServer } from 'ws';
+import { Server } from 'ws';
 
 const server = createServer({
   cert: readFileSync('/path/to/cert.pem'),
   key: readFileSync('/path/to/key.pem')
 });
-const wss = new WebSocketServer({ server });
+const wss = new Server({ server });
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(message) {
@@ -217,11 +217,11 @@ server.listen(8080);
 ```js
 import { createServer } from 'http';
 import { parse } from 'url';
-import { WebSocketServer } from 'ws';
+import { Server } from 'ws';
 
 const server = createServer();
-const wss1 = new WebSocketServer({ noServer: true });
-const wss2 = new WebSocketServer({ noServer: true });
+const wss1 = new Server({ noServer: true });
+const wss2 = new Server({ noServer: true });
 
 wss1.on('connection', function connection(ws) {
   // ...
@@ -253,11 +253,11 @@ server.listen(8080);
 ### Client authentication
 
 ```js
-import WebSocket from 'ws';
+import WebSocket, { Server } from 'ws';
 import { createServer } from 'http';
 
 const server = createServer();
-const wss = new WebSocketServer({ noServer: true });
+const wss = new Server({ noServer: true });
 
 wss.on('connection', function connection(ws, request, client) {
   ws.on('message', function message(msg) {
@@ -291,9 +291,9 @@ A client WebSocket broadcasting to all connected WebSocket clients, including
 itself.
 
 ```js
-import WebSocket, { WebSocketServer } from 'ws';
+import WebSocket, { Server } from 'ws';
 
-const wss = new WebSocketServer({ port: 8080 });
+const wss = new Server({ port: 8080 });
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(data, isBinary) {
@@ -310,9 +310,9 @@ A client WebSocket broadcasting to every other connected WebSocket clients,
 excluding itself.
 
 ```js
-import WebSocket, { WebSocketServer } from 'ws';
+import WebSocket, { Server } from 'ws';
 
-const wss = new WebSocketServer({ port: 8080 });
+const wss = new Server({ port: 8080 });
 
 wss.on('connection', function connection(ws) {
   ws.on('message', function incoming(data, isBinary) {
@@ -381,9 +381,9 @@ Otherwise, see the test cases.
 The remote IP address can be obtained from the raw socket.
 
 ```js
-import { WebSocketServer } from 'ws';
+import { Server } from 'ws';
 
-const wss = new WebSocketServer({ port: 8080 });
+const wss = new Server({ port: 8080 });
 
 wss.on('connection', function connection(ws, req) {
   const ip = req.socket.remoteAddress;
@@ -409,7 +409,7 @@ In these cases ping messages can be used as a means to verify that the remote
 endpoint is still responsive.
 
 ```js
-import { WebSocketServer } from 'ws';
+import { Server } from 'ws';
 
 function noop() {}
 
@@ -417,7 +417,7 @@ function heartbeat() {
   this.isAlive = true;
 }
 
-const wss = new WebSocketServer({ port: 8080 });
+const wss = new Server({ port: 8080 });
 
 wss.on('connection', function connection(ws) {
   ws.isAlive = true;
